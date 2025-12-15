@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-
 bool do_system(const char *command);
 
 bool do_exec(int count, ...);
