@@ -54,6 +54,7 @@ then
     sudo rm -rf ${OUTDIR}/rootfs
 fi
 
+
 # DONE: Create necessary base directories
 mkdir -p rootfs
 cd rootfs
