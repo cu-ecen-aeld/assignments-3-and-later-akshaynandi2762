@@ -82,7 +82,7 @@ make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 make CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
 
 echo "Library dependencies"
-cd ${OUTDIR}
+cd ${OUTDIR}/rootfs
 BIN_BUSYBOX_DIR="bin/busybox"
 PROG_INTERPRETER=$(${CROSS_COMPILE}readelf -a ${BIN_BUSYBOX_DIR} | grep "program interpreter" | awk '{print $4;}' | sed -e 's/\]//g')
 SHARED_LIBS=$(${CROSS_COMPILE}readelf -a ${BIN_BUSYBOX_DIR} | grep "Shared library" | awk '{print $5;}' | sed -e 's/\[//g' -e 's/\]//g')
@@ -96,8 +96,8 @@ do
     cp ${SYSROOT}/lib64/${shared_lib} ${OUTDIR}/rootfs/lib64/
 done
 # DONE: Make device nodes
-sudo mknod -m 666 rootfs/dev/null c 1 3
-sudo mknod -m 600 rootfs/dev/console c 5 1
+sudo mknod -m 666 dev/null c 1 3
+sudo mknod -m 600 dev/console c 5 1
 
 # DONE: Clean and build the writer utility
 cd ${FINDER_APP_DIR}
