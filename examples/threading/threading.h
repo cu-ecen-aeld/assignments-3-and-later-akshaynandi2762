@@ -8,6 +8,7 @@
  * the joiner thread.
  */
 struct thread_data{
+    pthread_t thread_id;
     pthread_mutex_t *mutex;
     int wait_to_obtain_ms;
     int wait_to_release_ms;

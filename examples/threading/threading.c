@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 // Optional: use these functions to add debug or error prints to your application
-#define DEBUG_LOG(msg,...)
-//#define DEBUG_LOG(msg,...) printf("threading: " msg "\n" , ##__VA_ARGS__)
+// #define DEBUG_LOG(msg,...)
+#define DEBUG_LOG(msg,...) printf("threading: " msg "\n" , ##__VA_ARGS__)
 #define ERROR_LOG(msg,...) printf("threading ERROR: " msg "\n" , ##__VA_ARGS__)
 
 void* threadfunc(void* thread_param)
@@ -72,6 +72,7 @@ bool start_thread_obtaining_mutex(pthread_t *thread, pthread_mutex_t *mutex, int
         return false;
     }
 
+    DEBUG_LOG("Initializing the thread data struct");
     data->mutex = mutex;
     data->wait_to_obtain_ms = wait_to_obtain_ms;
     data->wait_to_release_ms = wait_to_release_ms;
@@ -83,7 +84,9 @@ bool start_thread_obtaining_mutex(pthread_t *thread, pthread_mutex_t *mutex, int
         free(data);
         return false;
     }
-    
+
+    data->thread_id = *thread;
+    DEBUG_LOG("Thread successfully created with ID: %d", (int)data->thread_id);
     return true;
 }
 
