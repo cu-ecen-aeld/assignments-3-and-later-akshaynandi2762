@@ -1,6 +1,6 @@
 #!/bin/sh
 # Tester script for assignment 1 and assignment 2
-# Author: Siddhant Jajoo
+# Author: Akshay Nandi
 
 set -e
 set -u
@@ -8,6 +8,7 @@ set -u
 NUMFILES=10
 WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
+ASSIGNMENT4_P2_FILE=/tmp/assignment4-result.txt
 username=$(cat conf/username.txt)
 
 if [ $# -lt 3 ]
@@ -27,8 +28,6 @@ fi
 
 MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}"
 
-echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
-
 rm -rf "${WRITEDIR}"
 
 # create $WRITEDIR if not assignment1
@@ -45,19 +44,25 @@ then
 	then
 		echo "$WRITEDIR created"
 	else
+		echo "Failed to create $WRITEDIR"
 		exit 1
 	fi
 fi
+
+echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
+
 echo "Removing the old writer utility and compiling as a native application"
 make clean
 make
 
 for i in $( seq 1 $NUMFILES)
 do
-	./writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+	writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
 done
 
-OUTPUTSTRING=$(./finder.sh "/tmp/assignment4-result.txt" "$WRITESTR")
+OUTPUTSTRING=$(finder.sh "$WRITEDIR" "$WRITESTR")
+
+echo $OUTPUTSTRING > $ASSIGNMENT4_P2_FILE
 
 # remove temporary directories
 rm -rf /tmp/aeld-data
