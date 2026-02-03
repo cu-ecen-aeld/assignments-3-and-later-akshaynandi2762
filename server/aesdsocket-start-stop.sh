@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Description:  start stop daemon for aesdsocket app
 # Author: Akshay Nandi
 
